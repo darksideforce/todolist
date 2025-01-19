@@ -12,18 +12,24 @@ interface timePropor {
   detail:string
 }
 
-
-function timeProportion(timeList: any[], time: string) {
-  let proportion: timePropor[] = []
+function timeProportion(timeList: any[], time: any) {
+  let array = []
+  const dayStart = dayjs(time).hour(8)
   for(let i in timeList) {
-    let start = dayjs(timeList[i].timeStart)
-    let end = dayjs(timeList[i].timeEnd)
-    let minute = end.diff(start) / 60000
-    console.log(`minute=${minute}`)
-    console.log(`fulltime = ${fullTime}`)
-    const proportion =    minute / fullTime 
-    console.log(proportion)
+    let missionStart = dayjs(timeList[i].timeStart)
+    let missionEnd = dayjs(timeList[i].timeEnd)
+    console.log(`diff=${missionEnd.diff(missionStart)}`)
+    const heightProportion =   parseFloat((missionEnd.diff(missionStart) / 60000 / fullTime ).toFixed(4)) * 100
+    const topProportion =  parseFloat((missionStart.diff(dayStart) / 60000 / fullTime).toFixed(4)) * 100
+    console.log(`topProportion=${topProportion}`)
+    console.log(`heightProportion=${heightProportion}`)
+    array.push({
+      top: topProportion,
+      height: heightProportion,
+      detail: timeList[i].detail
+    })
   }
+  return array
 }
 export {
   timeProportion

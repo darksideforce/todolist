@@ -1,48 +1,63 @@
 <script setup lang='ts'>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import DayDetail from './dayDetail.vue';
+import { getCurrentWeek } from '../../utils/time';
 defineOptions({
   name:'WeekCalendar'
 })
 const dayList = reactive([
   {
     day: 'Mon',
-    week: '01'
+    week: '01',
+    label:'01'
   },
   {
     day: 'Tue',
-    week: '02'
+    week: '02',
+    label:'02'
   },
   {
     day: 'Wed',
-    week: '03'
+    week: '03',
+    label:'03'
   },
   {
     day: 'Thu',
-    week: '04'
+    week: '04',
+    label:'04'
   },
   {
     day: 'Fri',
-    week: '05'
+    week: '05',
+    label:'05'
   },
   {
     day: 'Sat',
-    week: '06'
+    week: '06',
+    label:'06'
   },
   {
     day: 'Sun',
-    week: '07'
+    week: '07',
+    label:'07'
   }
 ])
+onMounted(()=>{
+
+  const week = getCurrentWeek()
+  dayList.forEach((item,index)=>{
+    item.week = week[index] 
+  })
+})
 </script>
 
 <template>
   <div class="calendar-body">
     <div class="calendar-body-title">
-      <span class="calendar-body-title-zone">GMT-4</span>
+      <span class="calendar-body-title-zone">GMT-8</span>
       <div v-for="item in dayList" class="calendar-body-title-time">
         <span>{{ item.day }}</span>
-        <span>{{ item.week }}</span>
+        <span>{{ item.label }}</span>
       </div>
     </div>
     <div class="calendar-body-content">
@@ -65,8 +80,8 @@ const dayList = reactive([
         <span class="calendar-body-content-slider-time">23:00</span>
         <span class="calendar-body-content-slider-time">24:00</span>
       </div>
-      <div class="calendar-body-content-day">
-        <DayDetail></DayDetail>
+      <div class="calendar-body-content-day" v-for="item in dayList" :key="item.label">
+        <DayDetail  :currentDate="item.week" />
       </div>
     </div>
     
@@ -124,6 +139,9 @@ const dayList = reactive([
         vertical-align: top;
         margin-bottom: 10px;
       }
+    }
+    &-day{
+      
     }
   }
 }
