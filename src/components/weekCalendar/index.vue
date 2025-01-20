@@ -43,11 +43,13 @@ const dayList = reactive([
   }
 ])
 onMounted(()=>{
-
   const week = getCurrentWeek()
+  console.log(week)
   dayList.forEach((item,index)=>{
-    item.week = week[index] 
+    item.week = week[index].date
+    item.label =  week[index].label > 10? (week[index].label).toString() :  `0${week[index].label}`
   })
+  console.log(dayList)
 })
 </script>
 

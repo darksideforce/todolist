@@ -2,7 +2,6 @@
 import { ref, reactive } from 'vue'
 import dayjs from 'dayjs'
 import { timeProportion } from './use-weekcalendar'
-import { getCurrentDate } from '../../utils/time'
 defineOptions({
   name: 'DayDetail'
 })
@@ -19,17 +18,16 @@ let dayItemList = reactive([
     detail: '1'
   },
   {
-    timeStart: dayjs(props.currentDate).format('YYYY-MM-DD 14:00'),
-    timeEnd: dayjs(props.currentDate).format('YYYY-MM-DD 18:00'),
+    timeStart: dayjs(props.currentDate).format('YYYY-MM-DD 10:00'),
+    timeEnd: dayjs(props.currentDate).format('YYYY-MM-DD 20:00'),
     detail: '2'
   },
 ])
-const list = timeProportion(dayItemList, props.currentDate)
+const { missionList ,fullHour} = timeProportion(dayItemList, props.currentDate)
 const boxClass = (item: any) => {
-  console.log(`top=${item.top}`)
-  console.log(`height=${item.height}`)
+
   return {
-    height: item.height + '%',
+    height: `calc(${item.height}% - 10px)`,
     top: item.top + '%',
   }
 }
@@ -37,11 +35,8 @@ const boxClass = (item: any) => {
 
 <template>
   <div class="day-detail-root">
-    <div class="day-detail-root-item" v-for="item in list" :style="boxClass(item)">
-      <!-- <div class="day-detail-root-item-content"></div> -->
-      <!-- <div class="day-detail-root-item-uncontent">
-      </div> -->
-      <!-- <div class="day-detail-root-item-content" :></div> -->
+    <div class="day-detail-root-uncontent" v-for="items in fullHour"></div>
+    <div class="day-detail-root-item" v-for="item in missionList" :style="boxClass(item)">
     </div>
   </div>
 </template>
@@ -55,23 +50,26 @@ const boxClass = (item: any) => {
   margin-bottom: 10px;
   position: relative;
   height: 100%;
-  &-item {
-    // height: 150px;
-    background-color: red;
+  &-uncontent{
+      height: 150px;
+      border-width: 2px;
       border-radius: 10px;
-      width: 100%;
-      position: absolute;
-    &-uncontent {
+      margin-bottom: 10px;
+    }
+    &-uncontent:hover{
       height: 150px;
       border: 1px dashed #0eb665;
       border-width: 2px;
       border-radius: 10px;
+      margin-bottom: 10px;
     }
-
-    &-content {
-      
-    }
-
+  &-item {
+    // height: 150px;
+    background-color: red;
+    border-radius: 10px;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
   }
 }
 </style>

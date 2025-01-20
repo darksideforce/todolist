@@ -36,14 +36,16 @@ function getCurrentWeek() {
   const week = [];
   for(let i = 0;i<7;i++) {
     const date = startOfWeek.subtract(i, 'day');
-    week.push(date.format('YYYY-MM-DD'));
+    week.push({
+      date:date.format('YYYY-MM-DD'),
+      label:date.date()
+    });
   }
   return week.reverse();
 }
 //使当前时间+小时
 function addHoursToCurrentTime(currentTime:any,hours: number) {
   const newTime = currentTime.add(hours, 'hour');
-
   return newTime;
 }
 //计算时间差
@@ -54,6 +56,7 @@ function calculateHourDifference(startTime: any, endTime: any) {
   const diff = dayjs.duration(duration)
   return diff.hours()
 }
+
 export {
   getCurrentDate,
   getCurrentDateTime,

@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { ref, reactive } from 'vue'
-import WeekCalendar from '../../../../components/weekCalendar/index.vue'
+import WeekCalendar from '@/components/weekCalendar/index.vue'
 defineOptions({
   name:'CalendarContent'
 })
